@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PeternaBack.Data;
+using PeternaBack.Helpers;
 using PeternaBack.Models;
 
 namespace PeternaBack.Areas.AdminPanel.Controllers
@@ -38,20 +40,48 @@ namespace PeternaBack.Areas.AdminPanel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Service service)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(service);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View();
             }
-            return View(service);
+            if (!service.Photo.CheckFileType("image/"))
+            {
+                ModelState.AddModelError("", "File must be image");
+                return View();
+            }            
+            if (!service.Photo.CheckFileSize(200))
+            {
+                ModelState.AddModelError("", "File must be less than 200kb");
+                return View();
+            }
+            string uniqueFileName = UploadedFile(service);
+            service.Image = uniqueFileName;
+            _context.Add(service);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        private string UploadedFile(Service service)
+        {
+            string uniqueFileName = null;
+
+            if (service.Photo != null)
+            {
+                string uploadsFolder = Path.Combine(_env.WebRootPath, "img");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + service.Photo.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    service.Photo.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
         }
 
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             var service = await _context.Services.FindAsync(id);
@@ -64,49 +94,46 @@ namespace PeternaBack.Areas.AdminPanel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, Service service)
+        public async Task<IActionResult> Edit(int? id, Service new_service)
         {
-            if (id != service.Id)
+            if (id != new_service.Id)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            if (id==null)
             {
-                try
-                {
-                    _context.Update(service);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ServiceExists(service.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return BadRequest();
             }
-            return View(service);
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            if (!new_service.Photo.CheckFileType("image/"))
+            {
+                ModelState.AddModelError("", "File must be image");
+                return View();
+            }
+            if (!new_service.Photo.CheckFileSize(200))
+            {
+                ModelState.AddModelError("", "File must be less than 200kb");
+                return View();
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
+            if (id == null)
+            {
+                return BadRequest();
+            }
             var service = await _context.Services.FindAsync(id);
             _context.Services.Remove(service);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ServiceExists(int id)
-        {
-            return _context.Services.Any(e => e.Id == id);
         }
     }
 }
