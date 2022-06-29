@@ -26,7 +26,10 @@
   font-weight: 600;
   font-size: 25px;
 }
+.navigation a:hover {
+    color: white ;
 
+}
 .navigation a {
   color: white;
 }

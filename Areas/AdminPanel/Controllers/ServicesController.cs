@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,6 +15,7 @@ using PeternaBack.Models;
 namespace PeternaBack.Areas.AdminPanel.Controllers
 {
     [Area("AdminPanel")]
+    [Authorize]
     public class ServicesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -96,14 +98,6 @@ namespace PeternaBack.Areas.AdminPanel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, Service new_service)
         {
-            if (id != new_service.Id)
-            {
-                return NotFound();
-            }
-            if (id==null)
-            {
-                return BadRequest();
-            }
             if (!ModelState.IsValid)
             {
                 return View();
@@ -118,20 +112,32 @@ namespace PeternaBack.Areas.AdminPanel.Controllers
                 ModelState.AddModelError("", "File must be less than 200kb");
                 return View();
             }
-
+            var old_service = await _context.Services.FindAsync(id);
+            if (old_service==null)
+            {
+                return NotFound();
+            }
+            var path = Helper.GetPath(_env.WebRootPath, "img", old_service.Image);
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+            new_service.Image = await new_service.Photo.SaveFileAsync(_env.WebRootPath, "img");
+            old_service.Image = new_service.Image;
+            old_service.ServiceName = new_service.ServiceName;
+            old_service.Comment = new_service.Comment;
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return BadRequest();
-            }
             var service = await _context.Services.FindAsync(id);
             _context.Services.Remove(service);
+            var path = Helper.GetPath(_env.WebRootPath, "img", service.Image);
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
