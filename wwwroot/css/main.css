@@ -1,0 +1,278 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.container {
+  width: 1190px;
+}
+
+.navigation {
+  z-index: 1;
+  position: fixed;
+  width: 100%;
+  background-color: black;
+}
+
+.navigation .collapse {
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.navigation .navbar-brand {
+  font-weight: 600;
+  font-size: 25px;
+}
+
+.navigation a {
+  color: white;
+}
+
+.navigationbar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+#get_page_done {
+  background-color: #00798a;
+  color: white;
+  text-align: center;
+  padding: 80px 0px;
+  font-family: "Open Sans", sans-serif;
+}
+
+#get_page_done h1 {
+  font-size: 80px;
+  padding-top: 50px;
+}
+
+#get_page_done h4 {
+  font-size: 45px;
+  padding: 20px 0px;
+}
+
+#get_page_done p {
+  font-size: 20px;
+  padding-bottom: 20px;
+}
+
+#get_page_done button {
+  border-radius: 0px;
+  background-color: #fc4065;
+  border: 0;
+}
+
+#get_page_done button:hover {
+  background-color: red;
+}
+
+#our_services {
+  padding: 60px 0px;
+  background-image: url("https://www.free-css.com/assets/files/free-css-templates/preview/page201/peterna/assets/img/sativa.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: "Open Sans", sans-serif;
+}
+
+#our_services h1 {
+  padding: 20px 0px;
+  color: #00798a;
+}
+
+#our_services h4 {
+  font-weight: 500;
+}
+
+#our_services p {
+  padding: 20px 40px 20px 0px;
+  font-weight: 400;
+  font-size: 15px;
+}
+
+#our_services .our_services_item {
+  margin-top: 20px;
+  background-color: #00798a;
+  text-align: center;
+  padding: 20px;
+  color: white;
+  padding-bottom: 40px;
+}
+
+#our_services .our_services_item i {
+  font-size: 80px;
+  padding: 30px 0px;
+}
+
+#our_services .our_services_item h5 {
+  padding: 20px 0px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+#our_services .our_services_item p {
+  padding: 0;
+  font-size: 16px;
+}
+
+#our_services .our_services_summary {
+  padding-top: 80px;
+}
+
+#wall_street {
+  background-color: #00798a;
+  color: white;
+  padding: 30px 0px;
+  text-align: center;
+}
+
+#wall_street h1 {
+  font-size: 60px;
+}
+
+#wall_street p {
+  font-size: 26px;
+  padding-top: 30px;
+  font-weight: 500;
+}
+
+#our_plans {
+  padding: 50px 0px;
+}
+
+#our_plans h1 {
+  padding: 20px 0px;
+  color: #00798a;
+}
+
+#our_plans h4 {
+  font-weight: 500;
+}
+
+#our_plans p {
+  padding: 20px 40px 20px 0px;
+  font-weight: 400;
+  font-size: 15px;
+}
+
+#our_plans .our_plans_item {
+  margin-top: 20px;
+  background-color: #d8d8d8;
+}
+
+#our_plans .our_plans_item h3 {
+  background-color: black;
+  color: white;
+  text-align: center;
+  font-size: 22px;
+  padding: 5px 0px;
+}
+
+#our_plans .our_plans_item ul {
+  padding: 0;
+  list-style: none;
+  font-size: 30px;
+  color: #858585;
+  text-align: center;
+}
+
+#our_plans .our_plans_item ul li {
+  padding: 20px 0px;
+}
+
+#our_plans .our_plans_item h1 {
+  text-align: center;
+  background-color: #1f8a63;
+  color: white;
+  font-size: 50px;
+}
+
+#our_plans .our_plans_item button {
+  padding: 5px 0px;
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  border-radius: 0;
+  border: 0;
+  width: 100%;
+}
+
+#features {
+  background-color: #00798a;
+  color: white;
+  padding: 20px 0px 10px 0px;
+  text-align: center;
+}
+
+#features h1 {
+  font-size: 60px;
+}
+
+#features p {
+  font-size: 26px;
+  padding-top: 30px;
+  font-weight: 500;
+}
+
+#contact_us {
+  padding: 50px 0px;
+}
+
+#contact_us h1 {
+  padding: 20px 0px;
+  color: #00798a;
+}
+
+#contact_us h4 {
+  font-weight: 500;
+}
+
+#contact_us p {
+  padding: 20px 40px 20px 0px;
+  font-weight: 400;
+  font-size: 15px;
+}
+
+#contact_us .form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 5px;
+}
+
+#contact_us button {
+  margin-top: 20px;
+}
+
+#contact_us .contact_info {
+  padding-top: 20px;
+}
+
+#contact_us .contact_info p {
+  padding: 5px;
+  margin: 0;
+}
+
+.footer_summary {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  color: white;
+  background-color: black;
+  padding: 10px 0px;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.footer_summary p {
+  padding-right: 50px;
+  margin-bottom: 0;
+}
+/*# sourceMappingURL=main.css.map */
